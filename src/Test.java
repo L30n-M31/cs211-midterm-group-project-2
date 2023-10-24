@@ -1,3 +1,5 @@
+import node.TreeNode;
+
 public class Test {
     public static void main(String[] args) {
         Test program;
@@ -77,4 +79,13 @@ public class Test {
         }
         return occurrenceArray;
     } // end of determineOccurrences method
+
+    public void printCodeTable(TreeNode root, String s) {
+        if (root.getLeft() == null && root.getRight() == null && Character.isLetter(root.getSymbol())) {
+            System.out.println(root.getSymbol() + " | " + s);
+            return;
+        }
+        printCodeTable(root.getLeft(), s + "0");
+        printCodeTable(root.getRight(), s + "1");
+    } // end of printCodeTable
 } // end of Test class
