@@ -1,5 +1,7 @@
 import node.TreeNode;
 
+import java.util.PriorityQueue;
+
 public class Test {
     public static void main(String[] args) {
         Test program;
@@ -104,12 +106,12 @@ public class Test {
         return binaryCode.toString();
     } // end of toBinaryCode method
 
-    public void createHuffmanTree(char[] characters, int[] occurrences) {
+    public void createHuffmanTree(char[] characters, int[] occurrences, PriorityQueue<TreeNode> huffmanTree) {
 
     } // end of createHuffmanTree method
 
     public void printCodeTable(TreeNode root, String s) {
-        if (root.getLeft() == null && root.getRight() == null && Character.isLetter(root.getSymbol())) {
+        if (root.getLeft() == null && root.getRight() == null) {
             System.out.println(root.getSymbol() + " | " + s);
             return;
         }
