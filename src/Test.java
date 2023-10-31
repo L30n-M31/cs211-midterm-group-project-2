@@ -12,11 +12,16 @@ public class Test {
     } // end of main method
 
     public void run() {
+        /*
         String text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut " +
                 "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris " +
                 "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit " +
                 "esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in " +
                 "culpa qui officia deserunt mollit anim id est laborum.";
+
+         */
+
+        String text = "I Love You";
 
         char[] charactersUsed = determineCharactersUsed(text);
         int[] occurrences = determineNumberOfOccurrences(charactersUsed, text);
@@ -28,6 +33,8 @@ public class Test {
             int occurrence = occurrences[i];
             System.out.printf("%-13s%-15d%n", character, occurrence);
         }
+
+        System.out.println("\n" + "Binary Code: " + toBinaryCode(text));
     } // end of run method
 
     /**
@@ -79,6 +86,27 @@ public class Test {
         }
         return occurrenceArray;
     } // end of determineOccurrences method
+
+    /**
+     * Method that converts a given text to its binary counterpart
+     * @param text text given by the user at runtime
+     * @return the binary code of the text
+     */
+    public String toBinaryCode(String text) {
+        StringBuilder binaryCode = new StringBuilder();
+
+        for (int i = 0; i < text.length(); i++) {
+            char character = text.charAt(i);
+            int ascii = Integer.valueOf(character);
+            String binaryValue = Integer.toBinaryString(ascii);
+            binaryCode.append(binaryValue);
+        }
+        return binaryCode.toString();
+    } // end of toBinaryCode method
+
+    public void createHuffmanTree(char[] characters, int[] occurrences) {
+
+    } // end of createHuffmanTree method
 
     public void printCodeTable(TreeNode root, String s) {
         if (root.getLeft() == null && root.getRight() == null && Character.isLetter(root.getSymbol())) {
