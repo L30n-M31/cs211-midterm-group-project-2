@@ -23,7 +23,7 @@ public class Test {
 
          */
 
-        String text = "I Love You";
+        String text = "This is a sample text";
 
         char[] charactersUsed = determineCharactersUsed(text);
         int[] occurrences = determineNumberOfOccurrences(charactersUsed, text);
@@ -37,6 +37,9 @@ public class Test {
         }
 
         System.out.println("\n" + "Binary Code: " + toBinaryCode(text));
+        System.out.println("\n" + "Huffman Tree" + "\n");
+        PriorityQueue<TreeNode> huffmanTree = createHuffmanTree(charactersUsed, occurrences);
+        viewHuffmanTable(getTreeRoot(huffmanTree));
     } // end of run method
 
     /**
@@ -106,16 +109,60 @@ public class Test {
         return binaryCode.toString();
     } // end of toBinaryCode method
 
-    public void createHuffmanTree(char[] characters, int[] occurrences, PriorityQueue<TreeNode> huffmanTree) {
-
+    /**
+     * Method that creates a huffman tree
+     * @param characters the characters used in the text
+     * @param occurrences the number of times a character was used in the text
+     * @return populated huffman tree
+     */
+    public PriorityQueue<TreeNode> createHuffmanTree(char[] characters, int[] occurrences) {
+        int n = characters.length;
+        PriorityQueue<TreeNode> huffmanTree = new PriorityQueue<>(n);
+        for (int i = 0; i < n; i++) {
+            TreeNode huffmanNode = new TreeNode(occurrences[i], characters[i], null, null);
+            huffmanTree.add(huffmanNode);
+        }
+        return huffmanTree;
     } // end of createHuffmanTree method
 
-    public void printCodeTable(TreeNode root, String s) {
+    /**
+     * Method that retrieves the root of the huffman tree
+     * @param huffmanTree the tree to retrieve its root
+     */
+    public TreeNode getTreeRoot(PriorityQueue<TreeNode> huffmanTree) {
+        TreeNode root = null;
+
+        while (huffmanTree.size() > 1) {
+            TreeNode left = huffmanTree.peek();
+            huffmanTree.poll();
+
+            TreeNode right = huffmanTree.peek();
+            huffmanTree.poll();
+
+            TreeNode v = new TreeNode((left.getCount() + right.getCount()), '-', left, right);
+            root = v;
+            huffmanTree.add(v);
+        }
+        return root;
+    }
+
+    /**
+     * Method that displays the huffman table of a given text
+     * @param root the node to start checking
+     */
+    public void viewHuffmanTable(TreeNode root) {
+
+        System.out.println("Char | Huffman Code");
+        System.out.println("-------------------");
+        printCode(root, "");
+    } // end of viewHuffmanTable method
+
+    public void printCode(TreeNode root, String s) {
         if (root.getLeft() == null && root.getRight() == null) {
             System.out.println(root.getSymbol() + " | " + s);
             return;
         }
-        printCodeTable(root.getLeft(), s + "0");
-        printCodeTable(root.getRight(), s + "1");
+        printCode(root.getLeft(), s + "0");
+        printCode(root.getRight(), s + "1");
     } // end of printCodeTable
 } // end of Test class
