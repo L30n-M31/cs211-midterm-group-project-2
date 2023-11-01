@@ -1,6 +1,9 @@
+import com.sun.source.tree.Tree;
 import node.TreeNode;
 
+import java.util.ArrayList;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 public class Test {
     public static void main(String[] args) {
@@ -23,11 +26,16 @@ public class Test {
 
          */
 
-        String text = "This is a sample text";
+        Scanner keyboard = new Scanner(System.in);
+        System.out.print("Enter a text: ");
+        String text = keyboard.nextLine();
 
         char[] charactersUsed = determineCharactersUsed(text);
         int[] occurrences = determineNumberOfOccurrences(charactersUsed, text);
+        ArrayList<Character> characters = new ArrayList<>();
+        ArrayList<String> code = new ArrayList<>();
 
+        // Display the character used and the frequency of the character
         System.out.printf("%-13s%-15s%n", "Character", "Occurrences");
         System.out.printf("%-13s%-15s%n", "===========", "=============");
         for (int i = 0; i < charactersUsed.length; i++) {
@@ -36,10 +44,23 @@ public class Test {
             System.out.printf("%-13s%-15d%n", character, occurrence);
         }
 
+        // Decode the text in its binary form
         System.out.println("\n" + "Binary Code: " + toBinaryCode(text));
         System.out.println("\n" + "Huffman Tree" + "\n");
+
+        // Create the huffman tree
         PriorityQueue<TreeNode> huffmanTree = createHuffmanTree(charactersUsed, occurrences);
-        viewHuffmanTable(getTreeRoot(huffmanTree));
+        TreeNode root = getTreeRoot(huffmanTree);
+
+        // Create and display the huffman code table
+        createHuffmanCode(root, "", characters, code);
+        viewHuffmanTable(characters, code);
+
+        // Display the Encoded text
+        System.out.println("\n" + "Original Text: " + text);
+        System.out.println("Encoded Huffman Code: " + toHuffmanCode(text, characters, code));
+
+        System.out.println("\n\n");
     } // end of run method
 
     /**
@@ -110,6 +131,28 @@ public class Test {
     } // end of toBinaryCode method
 
     /**
+     * Method that encodes the huffman code of a text
+     * @param text text given by the user at runtime
+     * @param characters the characters used in the text
+     * @param code the huffman code of each character
+     * @return the encoded text in huffman code
+     */
+    public String toHuffmanCode(String text, ArrayList<Character> characters, ArrayList<String> code) {
+        StringBuilder huffmanCode = new StringBuilder();
+
+        for (int i = 0; i < text.length(); i++) {
+            char character = text.charAt(i);
+            for (int j = 0; j < characters.size(); j++) {
+                if (character == characters.get(j)) {
+                    huffmanCode.append(code.get(j)).append(" ");
+                    break;
+                }
+            }
+        }
+        return huffmanCode.toString();
+    } // end of toHuffmanCode method
+
+    /**
      * Method that creates a huffman tree
      * @param characters the characters used in the text
      * @param occurrences the number of times a character was used in the text
@@ -139,30 +182,40 @@ public class Test {
             TreeNode right = huffmanTree.peek();
             huffmanTree.poll();
 
-            TreeNode v = new TreeNode((left.getCount() + right.getCount()), '-', left, right);
-            root = v;
+            TreeNode v = new TreeNode((left.getCount() + right.getSymbol()), '-', left, right);
             huffmanTree.add(v);
         }
-        return root;
+        return huffmanTree.poll();
     }
 
     /**
      * Method that displays the huffman table of a given text
-     * @param root the node to start checking
+     * @param characters the characters used in the text
+     * @param code the huffman code of each character
      */
-    public void viewHuffmanTable(TreeNode root) {
+    public void viewHuffmanTable(ArrayList<Character> characters, ArrayList<String> code) {
 
         System.out.println("Char | Huffman Code");
         System.out.println("-------------------");
-        printCode(root, "");
+        for (int i = 0; i < characters.size(); i++) {
+            System.out.println(characters.get(i) + " | " + code.get(i));
+        }
     } // end of viewHuffmanTable method
 
-    public void printCode(TreeNode root, String s) {
+    /**
+     * Method that creates the reference table of the huffman code
+     * @param root the root of the huffman tree
+     * @param s the binary representation of a character
+     * @param characters the characters used in the text
+     * @param code the huffman code of each character
+     */
+    public void createHuffmanCode(TreeNode root, String s, ArrayList<Character> characters, ArrayList<String> code) {
         if (root.getLeft() == null && root.getRight() == null) {
-            System.out.println(root.getSymbol() + " | " + s);
+            characters.add(root.getSymbol());
+            code.add(s);
             return;
         }
-        printCode(root.getLeft(), s + "0");
-        printCode(root.getRight(), s + "1");
-    } // end of printCodeTable
+        createHuffmanCode(root.getLeft(), s + "0", characters, code);
+        createHuffmanCode(root.getRight(), s + "1", characters, code);
+    } // end of createHuffmanCode method
 } // end of Test class
