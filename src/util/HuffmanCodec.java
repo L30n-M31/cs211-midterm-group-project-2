@@ -8,6 +8,7 @@ import java.util.PriorityQueue;
 public class HuffmanCodec {
     private TreeNode root;
     private HashMap<Character, String> table;
+    private final StringBuilder treeOutput = new StringBuilder();
 
     public void createHuffmanTree(char[] characters, int[] frequency) {
         int n = characters.length;
@@ -21,7 +22,7 @@ public class HuffmanCodec {
             TreeNode left = huffmanTree.poll();
             TreeNode right = huffmanTree.poll();
 
-            TreeNode v = new TreeNode('\0', (left.getCount() + right.getCount()), left, right);
+            TreeNode v = new TreeNode('¬', (left.getCount() + right.getCount()), left, right);
             huffmanTree.add(v);
         }
 
@@ -47,12 +48,15 @@ public class HuffmanCodec {
 
         for (int i = 0; i < text.length(); i++) {
             char character = text.charAt(i);
+            if (character == '\\') {
+                character = '\n';
+                i++;
+            }
             if (table.containsKey(character)) {
                 String code = table.get(character);
                 huffmanCode.append(code);
             }
         }
-        computeSavings(text, huffmanCode.toString());
         return huffmanCode.toString();
     } // end of convertToHuffmanCode method
 
@@ -90,13 +94,23 @@ public class HuffmanCodec {
 
     public void printTree(TreeNode root, String prefix, boolean isLeftChild) {
         if (root != null) {
-            System.out.println(prefix + (isLeftChild ? "\u2514\u2500\u2500  " : "\u251C\u2500\u2500  ") + root.getSymbol() + " (" + root.getCount() + ")");
+            String symbol;
+            if (root.getSymbol() == ' ') {
+                symbol = "Space";
+            } else if (root.getSymbol() == '\n') {
+                symbol = "Newline";
+            } else {
+                symbol = String.valueOf(root.getSymbol());
+            }
+
+            treeOutput.append(prefix).append(isLeftChild ? "└──  " : "├──  ")
+                    .append(symbol).append(" (").append(root.getCount()).append(")\n");
             if (root.getLeft() != null || root.getRight() != null) {
                 if (root.getLeft() != null) {
-                    printTree(root.getLeft(), prefix + (isLeftChild ? "     " : "\u2502    "), false);
+                    printTree(root.getLeft(), prefix + (isLeftChild ? "     " : "│    "), false);
                 }
                 if (root.getRight() != null) {
-                    printTree(root.getRight(), prefix + (isLeftChild ? "     " : "\u2502    "), true);
+                    printTree(root.getRight(), prefix + (isLeftChild ? "     " : "│    "), true);
                 }
             }
         }
@@ -108,5 +122,9 @@ public class HuffmanCodec {
 
     public HashMap<Character, String > getTable() {
         return table;
+    }
+
+    public StringBuilder getTreeOutput() {
+        return treeOutput;
     }
 } // end of HuffmanCodec class
