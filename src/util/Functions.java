@@ -7,7 +7,7 @@ public class Functions {
     public char[] getCharacters() {
         String uppercaseSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowercaseSet = "abcdefghijklmnopqrstuvwxyz";
-        String specialSet = " .?'!,";
+        String specialSet = " .?'!,\n";
 
         return (uppercaseSet + lowercaseSet + specialSet).toCharArray();
     } // end of determineCharacters method
@@ -22,6 +22,10 @@ public class Functions {
         for (int i = 0; i < characters.length; i++, frequency = 0) {
             for (int j = 0; j < contents.length(); j++) {
                 char character = contents.charAt(j);
+                if (contents.charAt(j) == '\\') {
+                    character = '\n';
+                    j++;
+                }
                 if (character == characters[i]) {
                     frequency++;
                 }
