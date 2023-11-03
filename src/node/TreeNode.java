@@ -9,15 +9,15 @@ public class TreeNode implements Comparable<TreeNode> {
     private TreeNode right;
 
     public TreeNode() {
-        setCount(0);
         setSymbol('x');
+        setCount(0);
         setLeft(null);
         setRight(null);
     } // end of default constructor
 
-    public TreeNode(int count, char symbol, TreeNode left, TreeNode right) {
-        setCount(count);
+    public TreeNode(char symbol, int count, TreeNode left, TreeNode right) {
         setSymbol(symbol);
+        setCount(count);
         setLeft(left);
         setRight(right);
     } // end of constructor

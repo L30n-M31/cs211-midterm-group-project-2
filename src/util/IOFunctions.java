@@ -1,2 +1,4 @@
-package util;public class IOFunctions {
+package util;
+
+public class IOFunctions {
 }

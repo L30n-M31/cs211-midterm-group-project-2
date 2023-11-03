@@ -1,6 +1,6 @@
 package util;
 
-public class BinaryConverter {
+public class BinaryEncoder {
 
     /**
      * Converts a given text into its binary ASCII representation.
@@ -20,4 +20,4 @@ public class BinaryConverter {
         }
         return binaryASCIICode.toString();
     } // end of convertToBinaryASCII method
-} // end of BinaryConverter
+} // end of BinaryEncoder class
