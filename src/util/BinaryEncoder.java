@@ -4,7 +4,7 @@ public class BinaryEncoder {
 
     /**
      * Converts a given text into its binary ASCII representation.
-     *
+     * <p>
      * Each character of the input text is replaced with its binary ASCII value.
      *
      * @param text The input text to be converted
@@ -15,6 +15,10 @@ public class BinaryEncoder {
 
         for (int i = 0; i < text.length(); i++) {
             char character = text.charAt(i);
+            if (character == '\\') {
+                character = '\n';
+                i++;
+            }
             String binaryValue = Integer.toBinaryString(character);
             binaryASCIICode.append(binaryValue);
         }
