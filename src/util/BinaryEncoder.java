@@ -1,14 +1,11 @@
 package util;
 
 public class BinaryEncoder {
-
     /**
-     * Converts a given text into its binary ASCII representation.
-     * <p>
-     * Each character of the input text is replaced with its binary ASCII value.
+     * Converts a given text to its binary ASCII representation
      *
-     * @param text The input text to be converted
-     * @return A string containing the binary ASCII representation of the input text
+     * @param text to be converted in binary ASCII codes
+     * @return the binary ASCII representation of the text input
      */
     public String convertToBinaryASCII(String text) {
         StringBuilder binaryASCIICode = new StringBuilder();
@@ -19,9 +16,15 @@ public class BinaryEncoder {
                 character = '\n';
                 i++;
             }
-            String binaryValue = Integer.toBinaryString(character);
+            StringBuilder binaryValue = new StringBuilder(Integer.toBinaryString(character));
+
+            // adds leading zeros if the binary value is less than 7
+            while (binaryValue.length() < 7) {
+                binaryValue.insert(0, "0");
+            }
+
             binaryASCIICode.append(binaryValue);
         }
         return binaryASCIICode.toString();
-    } // end of convertToBinaryASCII method
+    } // end of convertToBinaryASCII
 } // end of BinaryEncoder class
