@@ -9,11 +9,11 @@
 This project is part of our Data Structures course for the midterms. The project requires us to implement the huffman coding method in compressing the represented bits of a given string of characters. The project also requires that the program can decode a huffman code to its equivalent text.
 
 ## Project Structure
-- `src` contains the source code for the sorting algorithms.
+- `src` contains the source code of the program.
 - `Character Set` stores the text file to be utilized to create the huffman code
 
 ## Usage
-To run the application simple go to the app package and run the HuffmanCodecApp.java class
+To run the application simply go to the app package and run the HuffmanCodecApp.java class
 
 ## Task Checklist
 - [x] `HuffmanCodecApp.java` : Executable class
